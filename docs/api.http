@@ -1,0 +1,47 @@
+### PRAMAAN API — open in VS Code with the REST Client extension and click "Send Request"
+@host = http://127.0.0.1:8000
+
+### Health
+GET {{host}}/api/v1/health
+
+### 1. GENUINE SEALED CIRCULAR -> GREEN, no model inference
+POST {{host}}/api/v1/verify
+Content-Type: application/json
+
+{"content": "Members are hereby notified of revised surveillance measures applicable to securities in the SME segment with effect from the settlement cycle commencing 20 July 2026."}
+
+### 2. FORGED SEBI CIRCULAR -> RED. Not in the log => never issued. No model ran.
+POST {{host}}/api/v1/verify
+Content-Type: application/json
+
+{"content": "OFFICIAL SEBI CIRCULAR: Priority IPO allotment approved for select investors. Visit https://sebi-india-verify.com to claim your allotment."}
+
+### 3. FINFLUENCER PHISHING -> RED, six named signals
+POST {{host}}/api/v1/verify
+Content-Type: application/json
+
+{"content": "SEBI approved! Guaranteed 40% returns. I am SEBI registered, reg no INA999999999. Only 5 seats left! Join my Telegram group now. Pay to rahul@ybl"}
+
+### 4. THE MONEY SHOT — perfect deepfake, ungrounded claim. Zero phishing keywords.
+POST {{host}}/api/v1/verify
+Content-Type: application/json
+
+{"content": "Reliance has announced a massive buyback at a 30% premium."}
+
+### Seal a new artefact at source
+POST {{host}}/api/v1/seal
+Content-Type: application/json
+
+{"issuer_did": "did:pramaan:nse", "artefact_type": "circular", "title": "NSE/SURV/2026/042 — Test Circular", "content": "This is a genuine circular issued by the exchange."}
+
+### Signed Tree Head
+GET {{host}}/api/v1/log/sth
+
+### Log entries
+GET {{host}}/api/v1/log/entries
+
+### Merkle inclusion proof (client-verifiable — no trust in the operator required)
+GET {{host}}/api/v1/log/proof/1
+
+### Authorised issuers
+GET {{host}}/api/v1/issuers

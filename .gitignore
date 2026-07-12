@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.env
+node_modules/
+dist/
+
+# NEVER commit signing keys or the demo log
+backend/data/keystore*.json
+backend/data/transparency_log.jsonl

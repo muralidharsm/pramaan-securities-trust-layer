@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<!--
+  PRAMAAN — demo console.
+
+  Deliberately a single file with no build step. A solo developer with a jury demo
+  in August should not be spending August debugging a bundler. Swap in the React +
+  Vite app when the WhatsApp bot and the browser extension need to share components;
+  until then, this loads instantly and cannot break.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>PRAMAAN — The Authenticity Layer for India's Securities Market</title>
+<style>
+  :root {
+    --navy:#0B1B3A; --navy2:#16305C; --green:#00A870; --red:#D6353B;
+    --gold:#E9B949; --paper:#F2F5FA; --muted:#8A99B5; --muted2:#5C6B85;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font:15px/1.5 -apple-system,"Segoe UI",Roboto,sans-serif;background:var(--navy);color:#fff}
+  header{padding:28px 32px 20px;border-bottom:1px solid var(--navy2)}
+  h1{margin:0;font-size:30px;letter-spacing:.5px}
+  .sub{color:var(--muted);margin-top:4px;font-size:14px}
+  .tag{color:var(--gold);font-style:italic;font-weight:600;margin-top:8px}
+  nav{display:flex;gap:4px;padding:0 32px;border-bottom:1px solid var(--navy2);background:var(--navy)}
+  nav button{background:none;border:0;color:var(--muted);padding:14px 18px;font:600 14px inherit;cursor:pointer;border-bottom:2px solid transparent}
+  nav button.on{color:#fff;border-bottom-color:var(--green)}
+  main{padding:28px 32px;max-width:1100px}
+  .panel{display:none} .panel.on{display:block}
+  textarea,input,select{width:100%;padding:12px;border-radius:8px;border:1px solid var(--navy2);
+    background:#0d2247;color:#fff;font:14px inherit;margin-bottom:12px}
+  textarea{min-height:110px;resize:vertical}
+  button.go{background:var(--green);color:#fff;border:0;padding:12px 24px;border-radius:8px;
+    font:700 14px inherit;cursor:pointer}
+  button.go:hover{filter:brightness(1.1)}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+  .chip{background:var(--navy2);border:1px solid #24457e;color:#cbd6e8;padding:7px 12px;
+    border-radius:20px;font-size:12px;cursor:pointer}
+  .chip:hover{border-color:var(--gold)}
+  .verdict{border-radius:12px;padding:20px;margin-top:20px;background:var(--navy2)}
+  .verdict.GREEN{border:2px solid var(--green)}
+  .verdict.RED{border:2px solid var(--red)}
+  .verdict.AMBER{border:2px solid var(--gold)}
+  .vhead{display:flex;align-items:center;gap:14px}
+  .badge{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-size:22px;font-weight:700;flex:0 0 auto}
+  .GREEN .badge{background:var(--green)} .RED .badge{background:var(--red)}
+  .AMBER .badge{background:var(--gold);color:var(--navy)}
+  .score{margin-left:auto;text-align:right}
+  .score b{font-size:30px;display:block;line-height:1}
+  .score span{font-size:11px;color:var(--muted)}
+  ul.reasons{list-style:none;padding:0;margin:16px 0 0}
+  ul.reasons li{padding:10px 0;border-top:1px solid #24457e;font-size:13.5px;color:#cbd6e8}
+  .code{font:600 11px ui-monospace,monospace;letter-spacing:.5px;display:inline-block;
+    padding:2px 7px;border-radius:4px;margin-right:8px}
+  .critical{background:#3d1418;color:#ff8a8f} .warning{background:#3d3214;color:var(--gold)}
+  .info{background:#0d3328;color:#4fd6a0}
+  .note{color:var(--muted);font-size:12px;margin-top:14px;font-style:italic}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:12px}
+  th{text-align:left;color:var(--muted);font-size:11px;letter-spacing:1px;padding:8px;border-bottom:1px solid var(--navy2)}
+  td{padding:10px 8px;border-bottom:1px solid var(--navy2);color:#cbd6e8}
+  .hash{font:11px ui-monospace,monospace;color:var(--green);word-break:break-all}
+  .sth{background:var(--navy2);border-radius:10px;padding:16px;margin-bottom:16px;font-size:13px}
+  label{font-size:12px;color:var(--muted);display:block;margin-bottom:5px;letter-spacing:.5px}
+</style>
+</head>
+<body>
+<header>
+  <h1>PRAMAAN</h1>
+  <div class="sub">The Authenticity Layer for India's Securities Market &nbsp;·&nbsp; SEBI TechSprint @ GFF 2026 &nbsp;·&nbsp; Team <b>code hunt</b></div>
+  <div class="tag">"If it isn't sealed, it isn't SEBI."</div>
+</header>
+
+<nav>
+  <button class="on" data-p="verify">Investor Verifier</button>
+  <button data-p="seal">Issuer Console</button>
+  <button data-p="log">Transparency Log</button>
+</nav>
+
+<main>
+  <!-- ------------------------------------------------------- VERIFY ------ -->
+  <section class="panel on" id="verify">
+    <p style="color:var(--muted);margin-top:0">Paste a forwarded message, circular, caption or link. The seal check runs first — most fraud is settled before a single model loads.</p>
+
+    <div class="chips" id="samples"></div>
+    <textarea id="content" placeholder="Paste the suspicious message here..."></textarea>
+    <button class="go" onclick="doVerify()">Verify</button>
+
+    <div id="result"></div>
+  </section>
+
+  <!-- --------------------------------------------------------- SEAL ------ -->
+  <section class="panel" id="seal">
+    <p style="color:var(--muted);margin-top:0">Issuer-side. An authorised issuer signs an artefact at source; the hash is committed to the append-only transparency log.</p>
+
+    <label>ISSUER</label>
+    <select id="issuer"></select>
+
+    <label>ARTEFACT TYPE</label>
+    <select id="atype">
+      <option value="circular">Circular</option>
+      <option value="announcement">Corporate Announcement</option>
+      <option value="press_release">Press Release</option>
+      <option value="advisory">Advisory</option>
+    </select>
+
+    <label>TITLE</label>
+    <input id="title" placeholder="NSE/SURV/2026/042 — ..." />
+
+    <label>BODY</label>
+    <textarea id="body" placeholder="The full text of the communication..."></textarea>
+
+    <button class="go" onclick="doSeal()">Seal &amp; Commit to Log</button>
+    <div id="sealed"></div>
+  </section>
+
+  <!-- ---------------------------------------------------------- LOG ------ -->
+  <section class="panel" id="log">
+    <div class="sth" id="sth">Loading signed tree head…</div>
+    <table>
+      <thead><tr><th>#</th><th>ISSUER</th><th>TITLE</th><th>CONTENT HASH</th><th>SEALED AT</th></tr></thead>
+      <tbody id="entries"></tbody>
+    </table>
+    <p class="note">Append-only. There is no delete endpoint and no update endpoint — by design. In production the daily Merkle root is co-signed and anchored to a permissioned Hyperledger Fabric consortium (SEBI + exchanges + depositories), so no single operator, including us, can rewrite history.</p>
+  </section>
+</main>
+
+<script>
+const API = "";
+
+const SAMPLES = [
+  ["Genuine sealed circular", "Members are hereby notified of revised surveillance measures applicable to securities in the SME segment with effect from the settlement cycle commencing 20 July 2026."],
+  ["Forged SEBI circular", "OFFICIAL SEBI CIRCULAR: Priority IPO allotment approved for select investors. Visit https://sebi-india-verify.com to claim your allotment."],
+  ["Finfluencer phishing", "SEBI approved! Guaranteed 40% returns. I am SEBI registered, reg no INA999999999. Only 5 seats left! Join my Telegram group now. Pay to rahul@ybl"],
+  ["Perfect deepfake (ungrounded claim)", "Reliance has announced a massive buyback at a 30% premium."],
+];
+
+document.querySelectorAll("nav button").forEach(b => b.onclick = () => {
+  document.querySelectorAll("nav button").forEach(x => x.classList.remove("on"));
+  document.querySelectorAll(".panel").forEach(x => x.classList.remove("on"));
+  b.classList.add("on");
+  document.getElementById(b.dataset.p).classList.add("on");
+  if (b.dataset.p === "log") loadLog();
+});
+
+const chips = document.getElementById("samples");
+SAMPLES.forEach(([label, text]) => {
+  const c = document.createElement("div");
+  c.className = "chip";
+  c.textContent = label;
+  c.onclick = () => { document.getElementById("content").value = text; doVerify(); };
+  chips.appendChild(c);
+});
+
+async function doVerify() {
+  const content = document.getElementById("content").value.trim();
+  if (!content) return;
+  const t0 = performance.now();
+  const res = await fetch(API + "/api/v1/verify", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({content}),
+  });
+  const d = await res.json();
+  const ms = Math.round(performance.now() - t0);
+
+  const glyph = {GREEN: "\u2713", RED: "\u2715", AMBER: "!"}[d.verdict];
+  document.getElementById("result").innerHTML = `
+    <div class="verdict ${d.verdict}">
+      <div class="vhead">
+        <div class="badge">${glyph}</div>
+        <div><b style="font-size:17px">${d.verdict}</b><div style="color:#cbd6e8;font-size:13.5px">${d.headline}</div></div>
+        <div class="score"><b>${d.trust_score}</b><span>TRUST SCORE</span></div>
+      </div>
+      ${d.seal_entry ? `<div class="note" style="font-style:normal;color:#4fd6a0">
+        Sealed by ${d.seal_entry.issuer_name} · SEBI Reg. ${d.seal_entry.sebi_reg_no} · log index #${d.seal_entry.index}</div>` : ""}
+      <ul class="reasons">
+        ${d.reasons.map(r => `<li><span class="code ${r.severity}">${r.code}</span>${r.message}</li>`).join("")}
+      </ul>
+      <div class="note">${d.latency_note} &nbsp;·&nbsp; round-trip ${ms} ms</div>
+    </div>`;
+}
+
+async function loadIssuers() {
+  const r = await fetch(API + "/api/v1/issuers");
+  const sel = document.getElementById("issuer");
+  sel.innerHTML = (await r.json())
+    .map(i => `<option value="${i.did}">${i.name} (${i.category})</option>`).join("");
+}
+
+async function doSeal() {
+  const payload = {
+    issuer_did: document.getElementById("issuer").value,
+    artefact_type: document.getElementById("atype").value,
+    title: document.getElementById("title").value,
+    content: document.getElementById("body").value,
+  };
+  if (!payload.title || !payload.content) return;
+  const r = await fetch(API + "/api/v1/seal", {
+    method: "POST", headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(payload),
+  });
+  const d = await r.json();
+  document.getElementById("sealed").innerHTML = `
+    <div class="verdict GREEN">
+      <div class="vhead">
+        <div class="badge">\u2713</div>
+        <div><b style="font-size:17px">SEALED</b>
+        <div style="color:#cbd6e8;font-size:13.5px">Committed to the transparency log at index #${d.entry.index}.</div></div>
+      </div>
+      <ul class="reasons">
+        <li><span class="code info">CONTENT HASH</span><span class="hash">${d.entry.content_hash}</span></li>
+        <li><span class="code info">SIGNATURE</span><span class="hash">${d.entry.signature.slice(0,64)}…</span> ${d.signature_valid ? "verified \u2713" : "INVALID"}</li>
+        <li><span class="code info">NEW ROOT</span><span class="hash">${d.signed_tree_head.root_hash}</span></li>
+      </ul>
+      <div class="note">Now paste this exact body into the Investor Verifier — it will resolve GREEN by seal check alone, with no model inference.</div>
+    </div>`;
+  document.getElementById("title").value = "";
+  document.getElementById("body").value = "";
+}
+
+async function loadLog() {
+  const d = await (await fetch(API + "/api/v1/log/entries")).json();
+  document.getElementById("sth").innerHTML =
+    `<b style="color:var(--gold)">SIGNED TREE HEAD</b><br>tree_size = <b>${d.tree_size}</b><br>
+     root_hash = <span class="hash">${d.root_hash}</span>`;
+  document.getElementById("entries").innerHTML = d.entries.map(e => `
+    <tr>
+      <td>${e.index}</td>
+      <td><b>${e.issuer_name}</b><br><span style="color:var(--muted);font-size:11px">${e.sebi_reg_no}</span></td>
+      <td>${e.title}</td>
+      <td class="hash">${e.content_hash.slice(0, 24)}…</td>
+      <td style="font-size:12px">${e.timestamp}</td>
+    </tr>`).join("");
+}
+
+loadIssuers();
+</script>
+</body>
+</html>

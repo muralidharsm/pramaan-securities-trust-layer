@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Meridian Capital Advisors",
+    "sebi_reg_no": "INA000000001",
+    "category": "Investment Adviser",
+    "status": "active"
+  },
+  {
+    "name": "Sundaram Research Partners",
+    "sebi_reg_no": "INH000000002",
+    "category": "Research Analyst",
+    "status": "active"
+  },
+  {
+    "name": "Coastal Securities Pvt Ltd",
+    "sebi_reg_no": "INZ000000003",
+    "category": "Stock Broker",
+    "status": "active"
+  },
+  {
+    "name": "Lapsed Advisory Services",
+    "sebi_reg_no": "INA000000009",
+    "category": "Investment Adviser",
+    "status": "expired"
+  }
+]

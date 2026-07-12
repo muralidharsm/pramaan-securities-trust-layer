@@ -1,0 +1,32 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Install dependencies",
+      "type": "shell",
+      "command": "pip install -r backend/requirements.txt",
+      "problemMatcher": []
+    },
+    {
+      "label": "Bootstrap demo data",
+      "type": "shell",
+      "command": "cd backend && python bootstrap.py",
+      "problemMatcher": []
+    },
+    {
+      "label": "Run PRAMAAN",
+      "type": "shell",
+      "command": "cd backend && uvicorn app.main:app --reload --port 8000",
+      "isBackground": true,
+      "problemMatcher": [],
+      "group": { "kind": "build", "isDefault": true }
+    },
+    {
+      "label": "Run tests",
+      "type": "shell",
+      "command": "cd backend && python -m pytest tests/ -v",
+      "group": { "kind": "test", "isDefault": true },
+      "problemMatcher": []
+    }
+  ]
+}
