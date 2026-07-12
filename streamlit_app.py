@@ -24,9 +24,9 @@ sys.path.insert(0, str(ROOT / "backend"))
 
 from app.detect import text as text_detect          # noqa: E402
 from app.detect import urls as url_detect           # noqa: E402
+from app.detect.text import OFFICIAL_CLAIM_RE       # noqa: E402
 from app.fusion import Reason, Verdict, fuse        # noqa: E402
 from app.grounding import ground_claims             # noqa: E402
-from app.main import OFFICIAL_CLAIM_RE              # noqa: E402
 from app.merkle import TransparencyLog, verify_inclusion  # noqa: E402
 from app.registry import SebiRegistry               # noqa: E402
 from app.seal import IssuerRegistry, content_hash, seal_artefact, verify_seal  # noqa: E402

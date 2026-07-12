@@ -21,6 +21,7 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
+from .detect.text import OFFICIAL_CLAIM_RE
 from .detect import text as text_detect
 from .detect import urls as url_detect
 from .fusion import Reason, fuse
@@ -52,14 +53,6 @@ issuers = IssuerRegistry(DATA / "issuers.json", DATA / "keystore.dev.json")
 sebi_registry = SebiRegistry(DATA / "sebi_registry.json")
 
 
-# Phrases that assert official origin. If one of these fires and there is no
-# seal, we are in "absence of proof is proof of absence" territory.
-OFFICIAL_CLAIM_RE = re.compile(
-    r"\b(sebi|nse|bse|nsdl|cdsl)\b.{0,40}\b(circular|notice|announcement|official|advisory|order)\b"
-    r"|\b(circular|notice|announcement)\b.{0,20}\bfrom\b.{0,20}\b(sebi|nse|bse|nsdl|cdsl)\b"
-    r"|\bofficial\s+(communication|announcement|circular)\b",
-    re.IGNORECASE | re.DOTALL,
-)
 
 
 # ---------------------------------------------------------------- schemas ----

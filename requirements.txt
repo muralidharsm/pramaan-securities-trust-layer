@@ -1,6 +1,11 @@
 # Root requirements — this is the file Streamlit Community Cloud reads.
-streamlit==1.41.1
-cryptography==44.0.0
-fastapi==0.115.6
-uvicorn[standard]==0.34.0
-pydantic==2.10.4
+#
+# ONLY what the Streamlit console needs. FastAPI/uvicorn/pydantic are NOT here
+# on purpose: the engine in backend/app has no web-framework dependency, so the
+# Streamlit path never imports them. Adding them back re-introduces the version
+# conflict with Streamlit Cloud's own rich/pygments/markdown-it-py pins.
+#
+# Loose pins, deliberately. Hard-pinning against Streamlit Cloud's managed
+# environment is how the build breaks.
+streamlit>=1.40
+cryptography>=42.0

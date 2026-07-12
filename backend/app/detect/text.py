@@ -124,6 +124,22 @@ _COMPILED = [
 ]
 
 
+# Phrases that assert official origin. If one of these fires and the content
+# carries no seal, we are in "absence of proof is proof of absence" territory —
+# see fusion.fuse(claimed_official=True).
+#
+# This lives here, and NOT in main.py, deliberately: the Streamlit front-end
+# imports it, and it must not have to pull in FastAPI/uvicorn/pydantic to do so.
+# Keeping the engine free of web-framework imports is what lets one codebase
+# serve both the API and the Streamlit console.
+OFFICIAL_CLAIM_RE = re.compile(
+    r"\b(sebi|nse|bse|nsdl|cdsl)\b.{0,40}\b(circular|notice|announcement|official|advisory|order)\b"
+    r"|\b(circular|notice|announcement)\b.{0,20}\bfrom\b.{0,20}\b(sebi|nse|bse|nsdl|cdsl)\b"
+    r"|\bofficial\s+(communication|announcement|circular)\b",
+    re.IGNORECASE | re.DOTALL,
+)
+
+
 def analyse_text(text: str) -> tuple[float, list[Signal]]:
     """
     Returns (risk_0_to_1, signals).
