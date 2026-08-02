@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ShieldAlert, Database, Link as LinkIcon, CheckCircle2, GitCommit, Network } from "lucide-react";
+import { Database, Link as LinkIcon, CheckCircle2, GitCommit, Network } from "lucide-react";
 
 interface LogEntry {
   index: number;

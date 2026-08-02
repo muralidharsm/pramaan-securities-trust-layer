@@ -87,7 +87,7 @@ export default function Issuer() {
             <form onSubmit={handleSeal} className="space-y-4">
               <div className="space-y-2">
                 <Label>Issuer</Label>
-                <Select value={selectedIssuer} onValueChange={setSelectedIssuer}>
+                <Select value={selectedIssuer} onValueChange={(val) => setSelectedIssuer(val || "")}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select issuer" />
                   </SelectTrigger>
@@ -103,7 +103,7 @@ export default function Issuer() {
 
               <div className="space-y-2">
                 <Label>Artefact Type</Label>
-                <Select value={artefactType} onValueChange={setArtefactType}>
+                <Select value={artefactType} onValueChange={(val) => setArtefactType(val || "")}>
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>

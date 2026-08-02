@@ -231,7 +231,7 @@ export default function Verify() {
 
                   {/* Expandable Reasons */}
                   {msg.assessment.reasons.length > 0 && (
-                    <Accordion type="single" collapsible className="w-full">
+                    <Accordion {...{ type: "single", collapsible: true } as any} className="w-full">
                       <AccordionItem value="reasons" className="border-t border-muted/30 mt-2">
                         <AccordionTrigger className="py-3 text-sm font-medium hover:no-underline text-muted-foreground hover:text-foreground transition-colors">
                           View Analysis ({msg.assessment.reasons.length} signals)
